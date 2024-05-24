@@ -9,6 +9,7 @@ RUN dnf -y install \
            btop \
            cmake \
            dnf-plugins-core \
+           fzf \
            make \
            mc \
            ncdu \
