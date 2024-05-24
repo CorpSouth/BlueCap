@@ -20,13 +20,6 @@ RUN dnf -y install \
            shellcheck \
            yt-dlp
 
-RUN dnf -y remove \
-           vim-common \
-           vim-data \
-           vim-enhanced \
-           vim-filesystem \
-           vim-minimal \
-
 RUN dnf clean all
 
 RUN ./scripts/install-liquidprompt.sh
