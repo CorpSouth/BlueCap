@@ -22,7 +22,7 @@ RUN dnf -y install \
 
 RUN dnf clean all
 
-RUN ./scripts/install-liquidprompt.sh
+RUN install-liquidprompt.sh
 
 RUN ln -fs /bin/sh /usr/bin/sh && \
     ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/docker && \
