@@ -22,7 +22,12 @@ RUN dnf -y install \
 
 RUN dnf clean all
 
-RUN install-liquidprompt.sh
+RUN echo 'Cloning Liquid Prompt Repository...' \
+    git clone --branch stable https://github.com/liquidprompt/liquidprompt.git /usr/etc/liquidprompt \
+    tee /etc/profile.d/liquidprompt-interactive-only.sh << EOF > /dev/null \
+    # Only load Liquid Prompt in interactive shells, not from a script or from scp \
+    [[ $- = *i* ]] && source /usr/etc/liquidprompt/liquidprompt \
+    EOF
 
 RUN ln -fs /bin/sh /usr/bin/sh && \
     ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/docker && \
