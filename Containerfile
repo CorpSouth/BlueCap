@@ -1,20 +1,39 @@
-FROM quay.io/toolbx-images/alpine-toolbox:edge
+FROM quay.io/toolbx-images/fedora-toolbox:latest
 
-LABEL com.github.containers.toolbox="true" \
-      usage="This image is meant to be used with the toolbox or distrobox command" \
-      summary="A cloud-native terminal experience" \
-      maintainer="jorge.castro@gmail.com"
+COPY ./configurations/etc/profile.d /etc
 
-COPY extra-packages /
-RUN apk update && \
-    apk upgrade && \
-    grep -v '^#' /extra-packages | xargs apk add
-RUN rm /extra-packages
+RUN dnf -y upgrade
 
-RUN   ln -fs /bin/sh /usr/bin/sh && \
-      ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/docker && \
-      ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/flatpak && \ 
-      ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/podman && \
-      ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/rpm-ostree && \
-      ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/transactional-update
+RUN dnf -y install \
+           android-tools \
+           btop \
+           cmake \
+           dnf-plugins-core \
+           make \
+           mc \
+           ncdu \
+           neovim \
+           ninja-build \
+           pipx \
+           rogue \
+           shellcheck \
+           yt-dlp
+
+RUN dnf -y remove \
+           vim-common \
+           vim-data \
+           vim-enhanced \
+           vim-filesystem \
+           vim-minimal \
+
+RUN dnf clean all
+
+RUN ./scripts/install-liquidprompt.sh
+
+RUN ln -fs /bin/sh /usr/bin/sh && \
+    ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/docker && \
+    ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/flatpak && \ 
+    ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/git && \ 
+    ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/podman && \
+    ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/rpm-ostree
      
