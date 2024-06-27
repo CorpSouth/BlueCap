@@ -9,8 +9,6 @@ COPY etc /
 COPY extra-packages /
 
 RUN dnf -y upgrade && \
-    dnf -y install rpmfusion-free-release && \
-    dnf -y install rpmfusion-nonfree-release && \
     dnf -y install $(<extra-packages) && \
     dnf clean all
 
