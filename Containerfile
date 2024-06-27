@@ -5,7 +5,7 @@ LABEL com.github.containers.toolbox="true" \
       summary="Customized Fedora Distrobox container, the default for CorpSouth-Atomic workstations." \
       maintainer="nixontech91@hotmail.com"
 
-COPY etc /
+COPY etc /etc
 COPY extra-packages /
 
 RUN dnf -y upgrade && \
