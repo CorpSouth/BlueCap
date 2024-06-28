@@ -7,12 +7,18 @@ LABEL com.github.containers.toolbox="true" \
 
 COPY etc /etc
 COPY extra-packages /
+COPY removed-packages /
 
 RUN dnf -y upgrade && \
     dnf -y install $(<extra-packages) && \
     dnf clean all
 
+RUN dnf -y upgrade && \
+    dnf -y remove $(<removed-packages) && \
+    dnf clean all
+
 RUN rm /extra-packages 
+RUN rm /removed-packages 
 
 RUN git clone --branch stable https://github.com/liquidprompt/liquidprompt.git /etc/liquidprompt
 
